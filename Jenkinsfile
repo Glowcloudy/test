@@ -1,13 +1,13 @@
 pipeline {
     agent any
     parameters {
-        string(name: 'GIT_URL', defaultValue: 'http://192.168.123.141/root/demo.git', description: 'GIT_URL')
+        string(name: 'GIT_URL', defaultValue: 'http://github.com/glowcloudy/test.git', description: 'GIT_URL')
         booleanParam(name: 'VERBOSE', defaultValue: false, description: '')
     }
     
     environment {
-        GIT_BUSINESS_CD = 'master'
-        GITLAB_CREDENTIAL_ID = 'gitlabuser'
+        GIT_BUSINESS_CD = 'main'
+        GITHUB_CREDENTIAL_ID = 'glowcloudy'
         VERBOSE_FLAG = '-q'
     }
 
