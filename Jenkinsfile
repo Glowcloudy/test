@@ -16,11 +16,11 @@ pipeline {
                 echo 'deploying the application...'
             }
         }
-        stage('SCM') {
+          stage('SCM') {
             checkout scm
-    }
+        }
         stage('SonarQube Analysis') {
-            def scannerHome = tool 'SonarScanner';
+            def scannerHome = tool 'SonarQube';
             withSonarQubeEnv() {
               sh "${scannerHome}/bin/sonar-scanner"
             }
