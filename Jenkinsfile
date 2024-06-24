@@ -17,13 +17,17 @@ pipeline {
             }
         }
           stage('SCM') {
+              steps{
             checkout scm
+              }
         }
         stage('SonarQube Analysis') {
+            steps{
             def scannerHome = tool 'SonarQube';
             withSonarQubeEnv() {
               sh "${scannerHome}/bin/sonar-scanner"
             }
+        }
         }
     }
 }
