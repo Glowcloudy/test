@@ -32,7 +32,7 @@ pipeline {
             steps{
                 withSonarQubeEnv('SonarQube-Server'){
                     sh "mvn clean package"
-                    sh "mvn sonar:sonar -Dsonar.projectKey=demo -Dsonar.host.url=http://192.168.123.141:9000 -Dsonar.login=03a3d935387d5a8bb8894ff0a0f282055f39466a"
+                    sh "mvn sonar:sonar -Dsonar.projectKey=test -Dsonar.host.url=http://localhost:9000 -Dsonar.login=sqp_82c669f2d0c99eb5984983bbec54210f7fc71b2f"
                 }
             }
         }
