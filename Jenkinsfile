@@ -3,7 +3,7 @@ pipeline {
     stages{
         stage('Checkout') {
             steps{
-                git (branch: 'main', url: 'https://github.com/glowcloudy/test.git'
+                git (branch: 'main', url: 'https://github.com/glowcloudy/test.git')
             }
         }
         stage('SonarQube analysis') {
@@ -13,7 +13,6 @@ pipeline {
                 }
             }
         }
-    }
-}
+   }
 }
 
