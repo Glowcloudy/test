@@ -20,11 +20,6 @@ pipeline {
                 echo("params : ${env.ymd} " + params.tag)
             }
         }
-        stage('Build') {
-            steps {
-                sh "./mvnw -Dmaven.test.failure.ignore=true clean package"
-            }
-        }
         stage('Unit Test') {
             steps {
                 sh './mvnw test'
