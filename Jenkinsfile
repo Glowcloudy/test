@@ -25,8 +25,8 @@ pipeline {
             steps{
                 git(branch: "${env.GIT_BUSINESS_CD}", 
                 credentialsId: "${env.GITLAB_CREDENTIAL_ID}", url: params.GIT_URL, changelog: false, poll: false)
+                checkout scm
             }
-            checkout scm
         }
         stage('SonarQube analysis') {
             steps{
