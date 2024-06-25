@@ -6,6 +6,11 @@ pipeline {
                 git (branch: 'main', url: 'https://github.com/glowcloudy/test.git')
             }
         }
+        stage('Build') {
+            steps {
+                sh "./mvnw"
+            }
+        }
         stage('SonarQube analysis') {
             steps{
                 withSonarQubeEnv('SonarQube'){
