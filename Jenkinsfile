@@ -19,16 +19,7 @@ pipeline {
                 }
                 echo("params : ${env.ymd} " + params.tag)
             }
-        }
-
-        stage('test') {
-            when {
-                branch 'update/jenkinsfile'
-            }
-            steps {
-                sh 'echo "Step test"'
-        }
-    
+        }   
 
         stage('Checkout') {
             steps{
