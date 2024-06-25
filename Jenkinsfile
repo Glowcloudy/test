@@ -27,35 +27,18 @@ pipeline {
                 credentialsId: "${env.GITLAB_CREDENTIAL_ID}", url: params.GIT_URL, changelog: false, poll: false)
             }
         }
-        
-        stage('SonarQube analysis') {
+        stage('SCM') {
             steps{
-                withSonarQubeEnv('SonarQube-Server'){
-                    sh "mvn clean package"
-                    sh "mvn sonar:sonar -Dsonar.projectKey=test -Dsonar.host.url=http://localhost:9000 -Dsonar.login=sqp_82c669f2d0c99eb5984983bbec54210f7fc71b2f"
-                }
+                checkout scm
             }
-        }
-        
-        stage('SonarQube Quality Gate'){
+  }
+        stage('SonarQube Analysis') {
             steps{
-                timeout(time: 1, unit: 'MINUTES') {
-                    script{
-                        echo "Start~~~~"
-                        def qg = waitForQualityGate()
-                        echo "Status: ${qg.status}"
-                        if(qg.status != 'OK') {
-                            echo "NOT OK Status: ${qg.status}"
-                            updateGitlabCommitStatus(name: "SonarQube Quality Gate", state: "failed")
-                            error "Pipeline aborted due to quality gate failure: ${qg.status}"
-                        } else{
-                            echo "OK Status: ${qg.status}"
-                            updateGitlabCommitStatus(name: "SonarQube Quality Gate", state: "success")
-                        }
-                        echo "End~~~~"
-                    }
+                def scannerHome = tool 'SonarScanner';
+                withSonarQubeEnv() {
+                sh "${scannerHome}/bin/sonar-scanner"
                 }
-            }
-        }
     }
+  }
+}
 }
