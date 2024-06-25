@@ -20,6 +20,7 @@ pipeline {
                 echo("params : ${env.ymd} " + params.tag)
             }
         }
+    }
 
         stage('Checkout') {
             steps{
@@ -35,5 +36,5 @@ pipeline {
             }
         }
 }
-}
+
 
