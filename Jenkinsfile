@@ -1,9 +1,30 @@
 pipeline {
     agent any
-    stages {
+    parameters {
+        string(name: 'GIT_URL', defaultValue: 'http://github.com/glowcloudy/test.git', description: 'GIT_URL')
+        booleanParam(name: 'VERBOSE', defaultValue: false, description: '')
+    }
+    
+    environment {
+        GIT_BUSINESS_CD = 'main'
+        GITHUB_CREDENTIAL_ID = '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'
+        VERBOSE_FLAG = '-q'
+    }
+
+    stages{
+        stage('Preparation') { // for display purposes
+            steps{
+                script{
+                    env.ymd = sh (returnStdout: true, script: ''' echo `date '+%Y%m%d-%H%M%S'` ''')
+                }
+                echo("params : ${env.ymd} " + params.tag)
+            }
+        }
+
         stage('Checkout') {
             steps{
-                checkout({$class: 'GitSCM', branches: [[name: '*/main']], userRemoteConfigs: [[url: 'https://github.com/glowcloudy/test.git']]])
+                git(branch: "${env.GIT_BUSINESS_CD}", 
+                credentialsId: "${env.GITLAB_CREDENTIAL_ID}", url: params.GIT_URL, changelog: false, poll: false)
             }
         }
         stage('SonarQube analysis') {
