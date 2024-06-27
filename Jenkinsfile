@@ -12,18 +12,16 @@ pipeline {
             }
         }
 
-        stage('Build') {
-            steps {
-                sh './gradlew build' // Gradle 사용 시
-                // 또는 sh 'mvn clean install' // Maven 사용 시
-            }
-        }
-
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('SonarQube') {
-                    sh './gradlew sonarqube' // Gradle 사용 시
-                    // 또는 sh 'mvn sonar:sonar' // Maven 사용 시
+                    sh '''
+                    sonar-scanner \
+                      -Dsonar.projectKey=your_project_key \
+                      -Dsonar.sources=. \
+                      -Dsonar.host.url=http://localhost:9000 \
+                      -Dsonar.login=sqp_e24527d6cac7ffc29a79f05458bfdf65a5b5b878
+                    '''
                 }
             }
         }
@@ -31,8 +29,7 @@ pipeline {
 
     post {
         always {
-            junit '**/build/test-results/test/*.xml' // 테스트 결과 보고서
-            archiveArtifacts artifacts: '**/build/libs/*.jar', allowEmptyArchive: true
+            archiveArtifacts artifacts: '**/*.jar', allowEmptyArchive: true
         }
     }
 }
